@@ -1,7 +1,7 @@
 class BudgetService:
 
-    async def create_budget(self):
+    async def create(self):
         pass
 
-    async def get_budget(self):
+    async def get(self):
         pass
