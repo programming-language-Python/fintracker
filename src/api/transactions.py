@@ -1,4 +1,10 @@
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
+
+from schemas import TransactionCreateSchema
+from services.transaction import TransactionService
+from .dependencies import transaction_service
 
 router = APIRouter(
     prefix="/transactions",
@@ -7,8 +13,12 @@ router = APIRouter(
 
 
 @router.post("")
-async def create_transactions():
-    pass
+async def create_transactions(
+        transaction: Annotated[TransactionCreateSchema, Depends()],
+        transaction_service: Annotated[TransactionService, Depends(transaction_service)],
+):
+    transaction_id = await transaction_service.create(transaction)
+    return {"transaction_id": transaction_id}
 
 
 @router.get("")
