@@ -12,8 +12,3 @@ async_session_maker = async_sessionmaker(async_engine)
 
 class Base(DeclarativeBase):
     pass
-
-
-async def get_session():
-    async with async_session_maker() as session:
-        yield session
