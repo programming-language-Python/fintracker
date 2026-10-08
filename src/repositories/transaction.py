@@ -1,10 +1,9 @@
-class TransactionRepository:
+from models import Transaction
+from utils.repository import SQLAlchemyRepository
 
-    async def create(self):
-        pass
 
-    async def get(self):
-        pass
+class TransactionRepository(SQLAlchemyRepository):
+    model = Transaction
 
     async def update(self, transaction_id: int):
         pass

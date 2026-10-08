@@ -1,7 +1,6 @@
-class BudgetRepository:
+from models import Budget
+from utils.repository import SQLAlchemyRepository
 
-    async def create(self):
-        pass
 
-    async def get(self):
-        pass
+class BudgetRepository(SQLAlchemyRepository):
+    model = Budget
