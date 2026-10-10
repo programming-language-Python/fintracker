@@ -1,6 +1,10 @@
-from repositories import TransactionRepository
-from services.transaction import TransactionService
+from repositories import TransactionRepository, CategoryRepository
+from services import TransactionService, CategoryService
 
 
 def transaction_service() -> TransactionService:
-    return TransactionService(TransactionRepository())
+    return TransactionService(TransactionRepository)
+
+
+def category_service() -> CategoryService:
+    return CategoryService(CategoryRepository)

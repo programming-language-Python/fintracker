@@ -1,4 +1,4 @@
 from .budget import BudgetRepository
-from .category import Category
+from .category import CategoryRepository
 from .report import ReportRepository
 from .transaction import TransactionRepository
