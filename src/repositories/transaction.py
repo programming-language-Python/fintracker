@@ -21,8 +21,8 @@ class TransactionRepository(SQLAlchemyRepository):
             filters.append(self.model.category_id == transaction_filter.category_id)
 
         async with async_session_maker() as session:
-            stmt = select(self.model).filter(*filters)
-            res = await session.execute(stmt)
+            query = select(self.model).filter(*filters)
+            res = await session.execute(query)
             return [row[0].to_read_model() for row in res.all()]
 
     async def update(self, transaction_id: int):

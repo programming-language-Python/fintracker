@@ -27,7 +27,7 @@ class SQLAlchemyRepository(AbstractRepository):
 
     async def get(self):
         async with async_session_maker() as session:
-            stmt = select(self.model)
-            res = await session.execute(stmt)
+            query = select(self.model)
+            res = await session.execute(query)
             res = [row[0].to_read_model() for row in res.all()]
             return res
