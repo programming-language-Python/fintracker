@@ -22,5 +22,12 @@ class TransactionSchema(TransactionCreateSchema):
         from_attributes = True
 
 
+class TransactionFilterSchema(BaseModel):
+    type: TransactionType | None = None
+    from_: datetime | None = None
+    to: datetime | None = None
+    category_id: int | None = None
+
+
 class TransactionRelSchema(TransactionCreateSchema):
     category: list["CategorySchema"]
