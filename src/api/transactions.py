@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from schemas import TransactionCreateSchema, TransactionSchema, TransactionFilterSchema
+from schemas import TransactionCreateSchema, TransactionSchema, TransactionFilterSchema, TransactionUpdateSchema
 from services.transaction import TransactionService
 from .dependencies import transaction_service
 
@@ -30,6 +30,11 @@ async def get_transactions(
     return transactions
 
 
-@router.put("")
-async def update_transactions(transaction_id: int):
-    pass
+@router.patch("/{transaction_id}")
+async def update_transactions(
+        transaction_id: int,
+        transaction: Annotated[TransactionUpdateSchema, Depends()],
+        transaction_service: Annotated[TransactionService, Depends(transaction_service)],
+) -> TransactionSchema:
+    transaction = await transaction_service.update(transaction_id, transaction)
+    return transaction

@@ -22,6 +22,14 @@ class TransactionSchema(TransactionCreateSchema):
         from_attributes = True
 
 
+class TransactionUpdateSchema(BaseModel):
+    type: TransactionType | None = None
+    sum: float | None = None
+    description: str | None = None
+    occurred_on: datetime | None = None
+    category_id: int | None = None
+
+
 class TransactionFilterSchema(BaseModel):
     type: TransactionType | None = None
     from_: datetime | None = None

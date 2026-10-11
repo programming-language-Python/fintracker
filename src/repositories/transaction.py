@@ -1,8 +1,8 @@
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from db.db import async_session_maker
 from models import Transaction
-from schemas import TransactionFilterSchema, TransactionSchema
+from schemas import TransactionFilterSchema, TransactionSchema, TransactionUpdateSchema
 from utils.repository import SQLAlchemyRepository
 
 
@@ -25,5 +25,16 @@ class TransactionRepository(SQLAlchemyRepository):
             res = await session.execute(query)
             return [row[0].to_read_model() for row in res.all()]
 
-    async def update(self, transaction_id: int):
-        pass
+    async def update(self, transaction_id: int, transaction: TransactionUpdateSchema) -> TransactionSchema:
+        values = transaction.model_dump(exclude_none=True)
+        async with async_session_maker() as session:
+            stmt = (
+                update(self.model)
+                .values(**values)
+                .filter_by(id=transaction_id)
+                .returning(self.model)
+            )
+            res = await session.execute(stmt)
+            updated_transaction = res.scalar_one().to_read_model()
+            await session.commit()
+            return updated_transaction

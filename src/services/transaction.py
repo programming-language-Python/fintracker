@@ -1,5 +1,5 @@
 from repositories import TransactionRepository
-from schemas import TransactionCreateSchema, TransactionFilterSchema
+from schemas import TransactionCreateSchema, TransactionFilterSchema, TransactionUpdateSchema
 
 
 class TransactionService:
@@ -15,5 +15,6 @@ class TransactionService:
         transactions = await self.repo.get(transaction_filter)
         return transactions
 
-    async def update(self, transaction_id: int):
-        pass
+    async def update(self, transaction_id: int, transaction: TransactionUpdateSchema):
+        transaction = await self.repo.update(transaction_id, transaction)
+        return transaction
