@@ -13,4 +13,5 @@ class BudgetService:
         return budget_id
 
     async def get(self):
-        pass
+        budgets = await self.repo.get()
+        return budgets

@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from schemas import BudgetCreateSchema
+from schemas import BudgetCreateSchema, BudgetSchema
 from services import BudgetService
 from .dependencies import budget_service
 
@@ -21,6 +21,9 @@ async def create_budgets(
     return {"budget_id": budget_id}
 
 
-@router.get("")
-async def get_budgets():
-    pass
+@router.get("/current")
+async def get_budgets(
+        budget_service: Annotated[BudgetService, Depends(budget_service)],
+) -> list[BudgetSchema]:
+        budgets = await budget_service.get()
+        return budgets
