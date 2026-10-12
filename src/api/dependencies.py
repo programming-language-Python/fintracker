@@ -1,5 +1,5 @@
-from repositories import TransactionRepository, CategoryRepository, BudgetRepository
-from services import TransactionService, CategoryService, BudgetService
+from repositories import TransactionRepository, CategoryRepository, BudgetRepository, ReportRepository
+from services import TransactionService, CategoryService, BudgetService, ReportService
 
 
 def transaction_service() -> TransactionService:
@@ -9,5 +9,10 @@ def transaction_service() -> TransactionService:
 def category_service() -> CategoryService:
     return CategoryService(CategoryRepository)
 
+
 def budget_service() -> BudgetService:
     return BudgetService(BudgetRepository)
+
+
+def report_service() -> ReportService:
+    return ReportService(ReportRepository)
