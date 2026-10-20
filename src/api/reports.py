@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 
 from api.dependencies import report_service
 from schemas import ReportCategoryFilterSchema
-from schemas.report import ReportCategorySchema
+from schemas.report import ReportCategorySchema, ReportTimeseriesFilterSchema, ReportTimeseriesSchema
 from services import ReportService
 
 router = APIRouter(
@@ -23,5 +23,9 @@ async def get_categories(
 
 
 @router.get("/timeseries")
-async def get_timeseries():
-    pass
+async def get_timeseries(
+        report_timeseries: Annotated[ReportTimeseriesFilterSchema, Depends()],
+        report_service: Annotated[ReportService, Depends(report_service)],
+) -> list[ReportTimeseriesSchema]:
+    report_timeseries = await report_service.get_timeseries(report_timeseries)
+    return report_timeseries

@@ -1,6 +1,6 @@
 from repositories import ReportRepository
 from schemas import ReportCategoryFilterSchema
-from schemas.report import ReportCategorySchema
+from schemas.report import ReportCategorySchema, ReportTimeseriesFilterSchema, ReportTimeseriesSchema
 
 
 class ReportService:
@@ -11,5 +11,6 @@ class ReportService:
         categories = await self.repo.get_categories(report_category)
         return categories
 
-    async def get_timeseries(self):
-        pass
+    async def get_timeseries(self, report_timeseries: ReportTimeseriesFilterSchema) -> list[ReportTimeseriesSchema]:
+        categories = await self.repo.get_timeseries(report_timeseries)
+        return categories
