@@ -1,8 +1,8 @@
-"""correction
+"""check
 
-Revision ID: 0a8d76a03b00
+Revision ID: 45ac1eb390c3
 Revises:
-Create Date: 2026-09-06 18:43:42.132920
+Create Date: 2026-10-21 17:23:50.041844
 
 """
 
@@ -12,7 +12,7 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
-revision: str = "0a8d76a03b00"
+revision: str = "45ac1eb390c3"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,17 +25,37 @@ def upgrade() -> None:
         "category",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("name", sa.String(), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.Column(
+            "created_at",
+            sa.DateTime(),
+            server_default=sa.text("TIMEZONE('utc', now())"),
+            nullable=False,
+        ),
+        sa.Column(
+            "updated_at",
+            sa.DateTime(),
+            server_default=sa.text("TIMEZONE('utc', now())"),
+            nullable=False,
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_table(
         "budget",
         sa.Column("id", sa.Integer(), nullable=False),
-        sa.Column("limit_amount", sa.Float(), nullable=False),
+        sa.Column("limit_amount", sa.Double(), nullable=False),
         sa.Column("period_month", sa.Date(), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.Column(
+            "created_at",
+            sa.DateTime(),
+            server_default=sa.text("TIMEZONE('utc', now())"),
+            nullable=False,
+        ),
+        sa.Column(
+            "updated_at",
+            sa.DateTime(),
+            server_default=sa.text("TIMEZONE('utc', now())"),
+            nullable=False,
+        ),
         sa.Column("category_id", sa.Integer(), nullable=True),
         sa.ForeignKeyConstraint(
             ["category_id"], ["category.id"], ondelete="SET NULL"
@@ -47,14 +67,24 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column(
             "type",
-            sa.Enum("income", "expense", name="transactiontype"),
+            sa.Enum("INCOME", "EXPENSE", name="transactiontype"),
             nullable=False,
         ),
-        sa.Column("sum", sa.Float(), nullable=False),
+        sa.Column("sum", sa.Double(), nullable=False),
         sa.Column("description", sa.String(), nullable=True),
         sa.Column("occurred_on", sa.DateTime(), nullable=False),
-        sa.Column("created_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.Column(
+            "created_at",
+            sa.DateTime(),
+            server_default=sa.text("TIMEZONE('utc', now())"),
+            nullable=False,
+        ),
+        sa.Column(
+            "updated_at",
+            sa.DateTime(),
+            server_default=sa.text("TIMEZONE('utc', now())"),
+            nullable=False,
+        ),
         sa.Column("category_id", sa.Integer(), nullable=False),
         sa.ForeignKeyConstraint(
             ["category_id"], ["category.id"], ondelete="CASCADE"

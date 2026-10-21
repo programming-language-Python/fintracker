@@ -8,9 +8,8 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 
 from core.config import settings
-from src.models.models import Budget  # noqa
-
-from src.db.db import Base
+from db.db import Base
+from models import Budget  # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -21,7 +20,7 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL_asyncpg + "?async_fallback=True")
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL_asyncpg)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
