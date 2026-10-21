@@ -2,5 +2,5 @@ import enum
 
 
 class TransactionType(enum.Enum):
-    income = "доход"
-    expense = "расход"
+    INCOME = "доход"
+    EXPENSE = "расход"
